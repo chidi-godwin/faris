@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
+import { MerchantRepository } from './merchant.dao';
 
 @Injectable()
 export class MerchantService {
+  constructor(private readonly merchantRepository: MerchantRepository) {}
   create(createMerchantDto: CreateMerchantDto) {
-    return 'This action adds a new merchant';
+    return this.merchantRepository.create(createMerchantDto);
   }
 
   findAll() {
-    return `This action returns all merchant`;
+    return this.merchantRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} merchant`;
+  findOneById(id: number) {
+    return this.merchantRepository.findById(id);
+  }
+
+  findOneByName(name: string) {
+    return this.merchantRepository.findByName(name);
   }
 
   update(id: number, updateMerchantDto: UpdateMerchantDto) {
-    return `This action updates a #${id} merchant`;
+    return this.merchantRepository.update(id, updateMerchantDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} merchant`;
+    return this.merchantRepository.delete(id);
   }
 }

@@ -51,4 +51,12 @@ export class MerchantRepository {
       update: {},
     });
   }
+
+  async delete(id: number) {
+    return this.prismaService.merchant.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }
