@@ -8,13 +8,13 @@ export class MerchantRepository {
   constructor(private prismaService: PrismaService) {}
 
   async create(data: CreateMerchantDto) {
-    this.prismaService.merchant.create({
+    return this.prismaService.merchant.create({
       data,
     });
   }
 
   async update(id: number, data: UpdateMerchantDto) {
-    this.prismaService.merchant.update({
+    return this.prismaService.merchant.update({
       where: {
         id,
       },
@@ -23,7 +23,7 @@ export class MerchantRepository {
   }
 
   async findByName(name: string) {
-    this.prismaService.merchant.findUnique({
+    return this.prismaService.merchant.findUnique({
       where: {
         name,
       },
@@ -31,7 +31,7 @@ export class MerchantRepository {
   }
 
   async findById(id: number) {
-    this.prismaService.merchant.findUnique({
+    return this.prismaService.merchant.findUnique({
       where: {
         id,
       },
@@ -39,11 +39,11 @@ export class MerchantRepository {
   }
 
   async findAll() {
-    this.prismaService.merchant.findMany({});
+    return this.prismaService.merchant.findMany({});
   }
 
   async findByNameOrCreate(name: string, data: CreateMerchantDto) {
-    this.prismaService.merchant.upsert({
+    return this.prismaService.merchant.upsert({
       where: {
         name,
       },
