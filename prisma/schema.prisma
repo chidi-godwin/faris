@@ -11,9 +11,10 @@ datasource db {
 }
 
 model Merchant {
-  id           Int           @id @default(autoincrement())
-  name         String        @unique
-  transactions Transaction[]
+  id             Int           @id @default(autoincrement())
+  name           String        @unique
+  isBezosRelated Boolean       @default(false)
+  transactions   Transaction[]
 
   @@index([name])
 }
