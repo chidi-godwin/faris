@@ -57,8 +57,14 @@ export class TransactionRepository {
     return this.prismaService.transaction.findMany({
       where: {
         date: {
-          gte: new Date(filter.year, filter.month - 1),
-          lte: new Date(filter.year, filter.month),
+          gte:
+            filter.year && filter.month
+              ? new Date(filter.year, filter.month - 1)
+              : undefined,
+          lte:
+            filter.year && filter.month
+              ? new Date(filter.year, filter.month)
+              : undefined,
         },
         merchant: {
           isBezosRelated: filter.isBezos,
@@ -97,6 +103,16 @@ export class TransactionRepository {
           },
         },
       },
+      include: this.include,
+    });
+  }
+
+  async findById(id: number) {
+    return this.prismaService.transaction.findUniqueOrThrow({
+      where: {
+        id,
+      },
+      include: this.include,
     });
   }
 }
