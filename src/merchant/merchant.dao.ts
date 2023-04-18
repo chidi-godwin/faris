@@ -31,7 +31,7 @@ export class MerchantRepository {
   }
 
   async findById(id: number) {
-    return this.prismaService.merchant.findUnique({
+    return this.prismaService.merchant.findUniqueOrThrow({
       where: {
         id,
       },
