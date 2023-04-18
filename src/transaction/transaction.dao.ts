@@ -2,13 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { MerchantRepository } from 'src/merchant/merchant.dao';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Transaction } from './dto/transaction.interface';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
 
 @Injectable()
 export class TransactionRepository {
+  private readonly include;
   constructor(
     private readonly prismaService: PrismaService,
     private readonly merchantRepository: MerchantRepository,
-  ) {}
+  ) {
+    this.include = {
+      merchant: {
+        select: {
+          name: true,
+          isBezosRelated: true,
+        },
+      },
+    };
+  }
 
   async createFromTransactions(transactions: Transaction[]) {
     const createdTransactions = [];
@@ -40,5 +51,52 @@ export class TransactionRepository {
       createdTransactions.push(transactionData);
     }
     return createdTransactions;
+  }
+
+  async findAll(filter: FilterTransactionDto) {
+    return this.prismaService.transaction.findMany({
+      where: {
+        date: {
+          gte: new Date(filter.year, filter.month - 1),
+          lte: new Date(filter.year, filter.month),
+        },
+        merchant: {
+          isBezosRelated: filter.isBezos,
+        },
+      },
+      include: this.include,
+      orderBy: [
+        {
+          date: 'desc',
+        },
+        {
+          id: 'desc',
+        },
+      ],
+    });
+  }
+
+  async aggregate() {
+    return this.prismaService.transaction.aggregate({
+      _sum: {
+        amount: true,
+      },
+      _count: true,
+    });
+  }
+
+  async updateMerchantBezosFlag(id: number, flag: boolean) {
+    return this.prismaService.transaction.update({
+      where: {
+        id,
+      },
+      data: {
+        merchant: {
+          update: {
+            isBezosRelated: flag,
+          },
+        },
+      },
+    });
   }
 }
