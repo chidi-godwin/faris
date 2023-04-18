@@ -113,6 +113,33 @@ export class MerchantController {
   }
 
   @ApiOperation({
+    summary: 'Merchant Retrieval',
+    description: 'Retrieve a merchant by name',
+  })
+  @ApiParam({
+    name: 'name',
+    description: 'Name of the merchant',
+    example: 'Amazon',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The merchant has been successfully retrieved.',
+    content: {
+      'application/json': {
+        examples: {
+          Merchant: {
+            value: CreateMerchantRespnoseExample,
+          },
+        },
+      },
+    },
+  })
+  @Get('name/:name')
+  async findOneByName(@Param('name') name: string) {
+    return this.merchantService.findOneByName(name);
+  }
+
+  @ApiOperation({
     summary: 'Merchant Update',
     description: 'Update a merchant by id',
   })
