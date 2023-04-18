@@ -59,7 +59,7 @@ export class MerchantController {
     },
   })
   @Post()
-  create(@Body() createMerchantDto: CreateMerchantDto) {
+  async create(@Body() createMerchantDto: CreateMerchantDto) {
     return this.merchantService.create(createMerchantDto);
   }
 
@@ -81,7 +81,7 @@ export class MerchantController {
     },
   })
   @Get()
-  findAll() {
+  async findAll() {
     return this.merchantService.findAll();
   }
 
@@ -108,7 +108,7 @@ export class MerchantController {
     },
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.merchantService.findOneById(+id);
   }
 
@@ -165,7 +165,7 @@ export class MerchantController {
     },
   })
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateMerchantDto: UpdateMerchantDto,
   ) {
@@ -186,7 +186,7 @@ export class MerchantController {
     description: 'The merchant has been successfully deleted.',
   })
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.merchantService.remove(+id);
   }
 }

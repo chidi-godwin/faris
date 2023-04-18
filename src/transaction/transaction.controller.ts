@@ -93,7 +93,7 @@ export class TransactionController {
     },
   })
   @Get()
-  findAll(@Query() filterDto: FilterTransactionDto) {
+  async findAll(@Query() filterDto: FilterTransactionDto) {
     return this.transactionService.findAll(filterDto);
   }
 
@@ -133,7 +133,7 @@ export class TransactionController {
     },
   })
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.transactionService.findOne(+id);
   }
 

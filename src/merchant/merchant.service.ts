@@ -6,27 +6,27 @@ import { MerchantRepository } from './merchant.dao';
 @Injectable()
 export class MerchantService {
   constructor(private readonly merchantRepository: MerchantRepository) {}
-  create(createMerchantDto: CreateMerchantDto) {
+  async create(createMerchantDto: CreateMerchantDto) {
     return this.merchantRepository.create(createMerchantDto);
   }
 
-  findAll() {
+  async findAll() {
     return this.merchantRepository.findAll();
   }
 
-  findOneById(id: number) {
+  async findOneById(id: number) {
     return this.merchantRepository.findById(id);
   }
 
-  findOneByName(name: string) {
+  async findOneByName(name: string) {
     return this.merchantRepository.findByName(name);
   }
 
-  update(id: number, updateMerchantDto: UpdateMerchantDto) {
+  async update(id: number, updateMerchantDto: UpdateMerchantDto) {
     return this.merchantRepository.update(id, updateMerchantDto);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.merchantRepository.delete(id);
   }
 }

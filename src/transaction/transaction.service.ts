@@ -50,15 +50,15 @@ export class TransactionService {
     return this.transactionRepository.aggregate();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} transaction`;
+  async findOne(id: number) {
+    return this.transactionRepository.findById(id);
   }
 
   async markTransactionAsBezosRelated(id: number, flag: boolean) {
     return this.transactionRepository.updateMerchantBezosFlag(id, flag);
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} transaction`;
   }
 }
