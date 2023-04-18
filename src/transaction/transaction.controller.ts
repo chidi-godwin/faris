@@ -2,23 +2,19 @@ import {
   Controller,
   Get,
   Post,
-  Body,
   Patch,
   Param,
-  Delete,
+  Query,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Transactions')
 @Controller('transactions')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
-
-  @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionService.create(createTransactionDto);
-  }
 
   @Post('download')
   async pollTransactions() {
@@ -26,8 +22,8 @@ export class TransactionController {
   }
 
   @Get()
-  findAll() {
-    return this.transactionService.findAll();
+  findAll(@Query() filterDto: FilterTransactionDto) {
+    return this.transactionService.findAll(filterDto);
   }
 
   @Get(':id')
@@ -35,16 +31,11 @@ export class TransactionController {
     return this.transactionService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
+  @Patch('/mark-as-bezos-related/:id/:flag')
+  async markTransactionAsBezosRelated(
     @Param('id') id: string,
-    @Body() updateTransactionDto: UpdateTransactionDto,
+    @Param('flag', ParseBoolPipe) flag: boolean,
   ) {
-    return this.transactionService.update(+id, updateTransactionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.transactionService.remove(+id);
+    return this.transactionService.markTransactionAsBezosRelated(+id, flag);
   }
 }
