@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { PrismaClientKnownRequestErrorFilter } from './filters/prismaError.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // enable global prisma error filter
+  app.useGlobalFilters(new PrismaClientKnownRequestErrorFilter());
 
   // configure swagger api documentation
   const config = new DocumentBuilder()
