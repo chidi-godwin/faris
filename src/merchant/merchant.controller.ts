@@ -10,8 +10,10 @@ import {
 import { MerchantService } from './merchant.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('merchant')
+@ApiTags('Merchants')
+@Controller('merchants')
 export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
 
