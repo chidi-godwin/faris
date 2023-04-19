@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MerchantService } from './merchant.service';
 import { MerchantController } from './merchant.controller';
 import { MerchantRepository } from './merchant.dao';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   controllers: [MerchantController],
