@@ -16,7 +16,7 @@ export class TransactionService {
     private readonly transactionRepository: TransactionRepository,
     private readonly configService: ConfigService,
   ) {
-    this.apiURL = configService.get<string>('api.URL');
+    this.apiURL = this.configService.get<string>('api.URL');
     this.aggregation = this.transactionRepository.aggregate();
   }
   async pollTransactions() {
