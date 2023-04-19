@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { MerchantRepository } from 'src/merchant/merchant.dao';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { MerchantRepository } from '..//merchant/merchant.dao';
+import { PrismaService } from '../prisma/prisma.service';
 import { Transaction } from './dto/transaction.interface';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
 
