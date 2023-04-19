@@ -9,7 +9,6 @@ import { FilterTransactionDto } from './dto/filter-transaction.dto';
 @Injectable()
 export class TransactionService {
   private readonly apiURL: string;
-  private readonly aggregation;
 
   constructor(
     private readonly httpService: HttpService,
@@ -17,7 +16,6 @@ export class TransactionService {
     private readonly configService: ConfigService,
   ) {
     this.apiURL = this.configService.get<string>('api.URL');
-    this.aggregation = this.transactionRepository.aggregate();
   }
   async pollTransactions() {
     const transactions = await lastValueFrom(
@@ -36,10 +34,10 @@ export class TransactionService {
 
     const {
       _sum: { amount },
-    } = await this.aggregation;
+    } = await this.transactionRepository.aggregate();
 
     const percentageOfTotalSpend = (
-      (parseInt(totalAmount, 10) / amount) *
+      (parseFloat(totalAmount) / amount) *
       100
     ).toFixed(1);
 
@@ -56,9 +54,5 @@ export class TransactionService {
 
   async markTransactionAsBezosRelated(id: number, flag: boolean) {
     return this.transactionRepository.updateMerchantBezosFlag(id, flag);
-  }
-
-  async remove(id: number) {
-    return `This action removes a #${id} transaction`;
   }
 }
