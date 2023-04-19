@@ -43,7 +43,7 @@ export class TransactionService {
       100
     ).toFixed(1);
 
-    return { transactions, totalAmount, percentageOfTotalSpend, count };
+    return { transactions, totalAmount, percentageOfTotalSpend, count, amount };
   }
 
   async aggregate() {
